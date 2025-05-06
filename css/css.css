@@ -1,6 +1,22 @@
 /* variable declarations */
 :root {
     --myapp-color-background: limegreen;
+    --myapp-header-height: 50px;
+    --myapp-header-background: rgb(60, 60, 60);
+    --myapp-header-font-size: 18pt;
+    --myapp-main-background: rgb(45, 45, 45);
+    --myapp-footer-height: 40px;
+    --myapp-footer-background: rgb(15, 15, 15);
+
+    --myapp-default-space: 10px;
+
+    --myapp-imgbutton-size: 40px;
+    --myapp-imgbutton-img-size: 25px;
+
+    --myapp-li-height: 70px;
+    --myapp-li-font-size: 20pt;
+    --myapp-li-bordercolor: rgb(120, 120, 120);
+    --myapp-li-imagesize: 50px;
 }
 
 html, body {
@@ -21,3 +37,225 @@ html, body {
     -moz-user-select: none;
     -webkit-user-select: none;
 }
+
+/* base structure */
+header {
+    height: var(--myapp-header-height);
+    background-color: var(--myapp-header-background);
+    /*padding: var(--myapp-default-space);*/
+}
+
+/*
+Diese Zuweisung brachte die Höhenberechnung für das main-Element durcheinander, das ja den "Rest" der Vertikale erhalten soll, nachdem die Höhe von Header und Footer fix zugewiesen wurde. Die Höhe, die wir mittels calc() dem main-Element zuweisen, wird jedoch - ohne weiteres Zutun unsererseits - auf den Content-Bereich des main-Elements angewendet, d.h. den Bereich innerhalb des Paddings.
+Die Lösung besteht daher darin, dass wir mittels der box-sizing Property die Höhenzuweisung wie folgt ausdrücklich auf die border-box (die Content+Padding umfasst) beziehen:
+ */
+main {
+    height: calc(100vh - (var(--myapp-header-height) + var(--myapp-footer-height)));
+    background-color: var(--myapp-main-background);
+    /*padding: var(--myapp-default-space);*/
+    overflow-y: scroll; /* Allows vertical scrolling */
+    box-sizing: border-box; /* Ensures padding is included in height calculation. Crucial line: ensures that the height includes the padding (and borders, if any), so the content area does not accidentally overflow the allocated space.*/
+}
+
+footer {
+    height: var(--myapp-footer-height);
+    background-color: var(--myapp-footer-background);
+}
+
+/*Header*/
+header h1 {
+    margin: 0; /* Removes default margin from h1 */
+    /*padding-left: var(--myapp-default-space);*/
+    height: 100%; /* Makes the h1 as tall as its parent container */
+    line-height: var(--myapp-header-height); /* Aligns text vertically by setting line height equal to header height */
+    font-size: var(--myapp-header-font-size); /* Uses a custom property for font size */
+    text-transform: uppercase;
+    display: inline-block; /* Allows the h1 to be treated as a block element */
+}
+
+/*Header buttons, Loge in list in main block*/
+.myapp-align-left {
+    float: left;
+}
+
+.myapp-align-right {
+    float: right;
+}
+
+/* imgbutton */
+.myapp-imgbutton {
+    background-color: transparent;
+    border: none;
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    height: var(--myapp-imgbutton-size);
+    width: var(--myapp-imgbutton-size);
+    /*background-image: url("./img/png/menu_FILL0_wght400_GRAD0_opsz24.png");*/
+    filter: invert(90%); /* Inverts the color of the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center;
+    background-size: var(--myapp-imgbutton-img-size) var(--myapp-imgbutton-img-size); /* Sets the size of the image */
+}
+
+/* set hte poistion of image im the middle of entire height of container*/
+header .myapp-imgbutton {
+    margin-top: calc((var(--myapp-header-height) - var(--myapp-imgbutton-size)) / 2);
+}
+
+footer .myapp-imgbutton {
+    margin-top: calc((var(--myapp-footer-height) - var(--myapp-imgbutton-size)) / 2);
+}
+
+/* single img for buttons */
+.myapp-img-menu {
+    background-image: url("./img/png/menu_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-plus {
+    background-image: url("./img/png/add_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-option {
+    background-image: url("./img/png/more_vert_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-refresh {
+    background-image: url("./img/png/sync_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+
+/*list */
+main ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+main ul li {
+    margin: 0;
+    padding: 0;
+    height: var(--myapp-li-height);
+    border-bottom: 1px solid var(--myapp-li-bordercolor);
+}
+
+main ul li h2 {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Makes the h2 as tall as its parent container */
+    line-height: var(--myapp-li-height); /* When an element contains only one line of text, and The line-height is set equal to the element's height, amd There’s no additional padding, borders, or vertical alignment tweaks. Then the text will appear vertically centered inside the element.
+    Imagine line-height as the height of a mattress, and the text is lying on that mattress. If the mattress fills the entire box (same height as the element), the text will lie right in the center vertically. */
+    margin-left: var(--myapp-default-space);
+
+    display: inline-block; /* h2 ist blockelement in default. blockelement takes full width of its parent container. The edit button will be set under of the h2 element if it is set as a blockelement. */
+
+    font-size: var(--myapp-li-font-size);
+    font-weight: normal
+}
+
+.myapp-img-edit {
+    background-image: url("./img/png/edit_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+main li .myapp-img-edit {
+    margin-top: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
+    margin-bottom: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
+}
+
+main li img {
+    height: var(--myapp-li-imagesize);
+    width: var(--myapp-li-imagesize);
+    margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
+    margin-left: var(--myapp-default-space);
+    object-fit: cover; /* Ensures the image covers the entire area of its container */
+}
+
+
+/* Tiles */
+.myapp-tiles li {
+    display: inline-block;
+
+    /*
+    how many tiles should fit in a single row (e.g. 3).
+    */
+    --myapp-tiles-per-line: 3;
+
+    /* Breite und Höhe der Liste:
+    ( Bereite der Anzeigeflaesche - ( (Anzahl der Kacheln pro Zeile + 1)* Breite eines einzelnen Abstand) )/ Anzahl der Kacheln Pro Zeile
+
+     ( var(--myapp-tiles-per-line) + 1 ) * var(--myapp-default-space)
+= total space taken by gaps between tiles (including the gap before the first and after the last tile).
+
+    Subtract that total gap width from 100vw.
+
+    Divide the remaining space by the number of tiles to get the width of each tile.
+
+     */
+    --myapp-tiles-size: calc((100vw - (( var(--myapp-tiles-per-line) + 1 ) * var(--myapp-default-space)))/var(--myapp-tiles-per-line));
+
+    height: var(--myapp-tiles-size);
+    width: var(--myapp-tiles-size);
+
+    margin-left: var(--myapp-default-space);
+    margin-top: var(--myapp-default-space);
+    border: none;
+    float: left;
+}
+
+.myapp-tiles li * {
+    display: none;
+}
+
+.myapp-tiles li img {
+    display: block;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+
+/* Responsive design */
+
+@media (min-width: 400px) {
+    .myapp-tiles li {
+        --myapp-tiles-per-line: 4;
+    }
+}
+
+@media (min-width: 500px) {
+    .myapp-tiles li {
+        --myapp-tiles-per-line: 7;
+    }
+}
+
+@media (min-width: 600px) {
+    .myapp-tiles li {
+        --myapp-tiles-per-line: 10;
+    }
+}
+
+
+/* fading animation */
+
+/*
+main.myapp-faded: Select any <main> element that has the class myapp-faded.
+
+main .myapp-faded: Select any element with class myapp-faded that is inside a <main> element (any depth).
+*/
+main.myapp-faded {
+    opacity: 0;
+
+    /* Fading effect: Verzoegerung, Angleichung, Transition. Uebergang einer Menge von Systle Property Zuweisuyng von einem Ausgangswert*/
+    /* when it is not given, no transition event happens */
+    transition: opacity 3s;
+}
+
+main {
+    opacity: 1;
+    transition: opacity 2s;
+}
+
+
+
+
+
