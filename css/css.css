@@ -257,5 +257,17 @@ main {
 
 
 
+/* img + text is zu lange, dann umbruch. try to aviod it */
+li h2 {
+    text-overflow: ellipsis; /* Adds "..." at the end of the text if it overflows */
+    white-space: nowrap;
+    overflow: hidden; /* Hides the overflow. This is important to make the ellipsis work */
+    max-width: calc(100vw - (var(--myapp-li-imagesize)  + var(--myapp-imgbutton-size) + 4* var(--myapp-default-space))); /* Sets the maximum width of the text */
+    /*min-width: 0;*/
+}
+
+.myapp-template {
+    display: none;
+}
 
 
