@@ -1,12 +1,24 @@
 /* variable declarations */
 :root {
-    --myapp-color-background: limegreen;
+    --myapp-color-background: white;
+    --myapp-color-header-border-line: gray;
+    --myapp-color-border-border-line: orange;
+
+
     --myapp-header-height: 50px;
-    --myapp-header-background: rgb(60, 60, 60);
     --myapp-header-font-size: 18pt;
-    --myapp-main-background: rgb(45, 45, 45);
+    /*--myapp-header-background: rgb(60, 60, 60);*/
+    --myapp-header-border-radius: 3px;
+    --myapp-header-background: var(--myapp-color-background);
+
+    /*--myapp-main-background: rgb(45, 45, 45);*/
+    --myapp-main-background: var(--myapp-color-background);
+
     --myapp-footer-height: 40px;
-    --myapp-footer-background: rgb(15, 15, 15);
+    /*--myapp-footer-background: rgb(15, 15, 15);*/
+    --myapp-footer-border-radius: 3px;
+    --myapp-footer-background: var(--myapp-color-background);
+
 
     --myapp-default-space: 10px;
 
@@ -15,34 +27,49 @@
 
     --myapp-li-height: 70px;
     --myapp-li-font-size: 20pt;
-    --myapp-li-bordercolor: rgb(120, 120, 120);
+    /*--myapp-li-bordercolor: rgb(120, 120, 120);*/
+    --myapp-li-bordercolor: grey;
     --myapp-li-imagesize: 50px;
+
+    /* fading animation */
+    --myapp-display-transition-duration: 1s;
+    --myapp-fading-transition-duration: 2s;
 }
 
-html, body {
-    background-color: var(--myapp-color-background);
-    margin: 0px;
-    font-family: "Avenir Medium", sans-serif;
-    color: white;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-}
 
 /* block text selection */
-
 * {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
 
+
+
+/*
+ * main structure
+ */
+
+/* Applies styles to both the <html> and <body> elements. */
+html, body {
+    background-color: var(--myapp-color-background);
+    margin: 0px;
+    font-family: "Avenir Medium", sans-serif;
+    color: black;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+}
+
+
 /* base structure */
 header {
-    height: var(--myapp-header-height);
+    height: calc(var(--myapp-header-height) - var(--myapp-header-border-radius));
     background-color: var(--myapp-header-background);
     /*padding: var(--myapp-default-space);*/
+    border-bottom: var(--myapp-header-border-radius) solid var(--myapp-color-header-border-line);
+
 }
 
 /*
@@ -50,30 +77,20 @@ Diese Zuweisung brachte die Höhenberechnung für das main-Element durcheinander, 
 Die Lösung besteht daher darin, dass wir mittels der box-sizing Property die Höhenzuweisung wie folgt ausdrücklich auf die border-box (die Content+Padding umfasst) beziehen:
  */
 main {
-    height: calc(100vh - (var(--myapp-header-height) + var(--myapp-footer-height)));
+    height: calc(100% - (var(--myapp-header-height) + var(--myapp-footer-height)));
     background-color: var(--myapp-main-background);
     /*padding: var(--myapp-default-space);*/
     overflow-y: scroll; /* Allows vertical scrolling */
     box-sizing: border-box; /* Ensures padding is included in height calculation. Crucial line: ensures that the height includes the padding (and borders, if any), so the content area does not accidentally overflow the allocated space.*/
+
 }
 
 footer {
-    height: var(--myapp-footer-height);
+    height: calc(var(--myapp-footer-height) - var(--myapp-footer-border-radius));
     background-color: var(--myapp-footer-background);
+    border-top: var(--myapp-footer-border-radius) solid var(--myapp-color-border-border-line);
 }
 
-/*Header*/
-header h1 {
-    margin: 0; /* Removes default margin from h1 */
-    /*padding-left: var(--myapp-default-space);*/
-    height: 100%; /* Makes the h1 as tall as its parent container */
-    line-height: var(--myapp-header-height); /* Aligns text vertically by setting line height equal to header height */
-    font-size: var(--myapp-header-font-size); /* Uses a custom property for font size */
-    text-transform: uppercase;
-    display: inline-block; /* Allows the h1 to be treated as a block element */
-}
-
-/*Header buttons, Loge in list in main block*/
 .myapp-align-left {
     float: left;
 }
@@ -81,6 +98,48 @@ header h1 {
 .myapp-align-right {
     float: right;
 }
+
+/*
+* image and common image style
+ */
+
+/* buttons image in header*/
+.myapp-img-menu {
+    background-image: url("./img/png/menu_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-plus {
+    background-image: url("./img/png/add_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-tile {
+    background-image: url("./img/png/grid_view_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-list {
+    background-image: url("./img/png/list_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+/* buttons image in main*/
+
+.myapp-img-option {
+    background-image: url("./img/png/more_vert_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-play-arrow {
+    background-image: url("./img/png/play_arrow_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+
+/* buttons image in footer*/
+.myapp-img-logout {
+    background-image: url("./img/png/logout_FILL0_wght400_GRAD0_opsz24.png");
+}
+
+.myapp-img-refresh {
+    background-image: url("./img/png/sync_FILL0_wght400_GRAD0_opsz24.png");
+}
+
 
 /* imgbutton */
 .myapp-imgbutton {
@@ -92,10 +151,28 @@ header h1 {
     height: var(--myapp-imgbutton-size);
     width: var(--myapp-imgbutton-size);
     /*background-image: url("./img/png/menu_FILL0_wght400_GRAD0_opsz24.png");*/
-    filter: invert(90%); /* Inverts the color of the image */
+    filter: invert(60%);  /* Inverts the color of the image */
+    -webkit-filter: invert(60%);
+
     background-repeat: no-repeat; /* Prevents the image from repeating */
     background-position: center;
     background-size: var(--myapp-imgbutton-img-size) var(--myapp-imgbutton-img-size); /* Sets the size of the image */
+}
+
+
+
+
+/*
+* Element in Header
+*/
+header h1 {
+    margin: 0; /* Removes default margin from h1 */
+    /*padding-left: var(--myapp-default-space);*/
+    height: 100%; /* Makes the h1 as tall as its parent container */
+    line-height: var(--myapp-header-height); /* Aligns text vertically by setting line height equal to header height */
+    font-size: var(--myapp-header-font-size); /* Uses a custom property for font size */
+    text-transform: uppercase;
+    display: inline-block; /* Allows the h1 to be treated as a block element */
 }
 
 /* set hte poistion of image im the middle of entire height of container*/
@@ -103,29 +180,29 @@ header .myapp-imgbutton {
     margin-top: calc((var(--myapp-header-height) - var(--myapp-imgbutton-size)) / 2);
 }
 
+
+
+
+
+/*
+Element in footer
+ */
+
 footer .myapp-imgbutton {
     margin-top: calc((var(--myapp-footer-height) - var(--myapp-imgbutton-size)) / 2);
 }
 
-/* single img for buttons */
-.myapp-img-menu {
-    background-image: url("./img/png/menu_FILL0_wght400_GRAD0_opsz24.png");
+
+/*
+* Element in list in Main Tag
+*/
+
+/* grauer Puffer */
+main .puffer {
+    padding: 10px;
+    background-color: #d9d8d8;
 }
 
-.myapp-img-plus {
-    background-image: url("./img/png/add_FILL0_wght400_GRAD0_opsz24.png");
-}
-
-.myapp-img-option {
-    background-image: url("./img/png/more_vert_FILL0_wght400_GRAD0_opsz24.png");
-}
-
-.myapp-img-refresh {
-    background-image: url("./img/png/sync_FILL0_wght400_GRAD0_opsz24.png");
-}
-
-
-/*list */
 main ul {
     margin: 0;
     padding: 0;
@@ -137,6 +214,16 @@ main ul li {
     padding: 0;
     height: var(--myapp-li-height);
     border-bottom: 1px solid var(--myapp-li-bordercolor);
+}
+
+/* Remove the top border from the first item */
+main ul li:first-child {
+    border-top: none;
+}
+
+/* Remove the bottom border from the last item */
+main ul li:last-child {
+    border-bottom: none;
 }
 
 main ul li h2 {
@@ -153,11 +240,9 @@ main ul li h2 {
     font-weight: normal
 }
 
-.myapp-img-edit {
-    background-image: url("./img/png/edit_FILL0_wght400_GRAD0_opsz24.png");
-}
 
-main li .myapp-img-edit {
+
+main li .myapp-img-option {
     margin-top: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
     margin-bottom: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
 }
@@ -171,7 +256,14 @@ main li img {
 }
 
 
-/* Tiles */
+/*
+* Kachelansicht: Tiles-mode
+*/
+
+.myapp-tiles li * {
+    display: none;
+}
+
 .myapp-tiles li {
     display: inline-block;
 
@@ -202,9 +294,7 @@ main li img {
     float: left;
 }
 
-.myapp-tiles li * {
-    display: none;
-}
+
 
 .myapp-tiles li img {
     display: block;
@@ -214,7 +304,9 @@ main li img {
 }
 
 
-/* Responsive design */
+/*
+* Responsive design
+*/
 
 @media (min-width: 400px) {
     .myapp-tiles li {
@@ -235,7 +327,11 @@ main li img {
 }
 
 
-/* fading animation */
+/*
+* fading animation
+*/
+
+
 
 /*
 main.myapp-faded: Select any <main> element that has the class myapp-faded.
@@ -247,16 +343,21 @@ main.myapp-faded {
 
     /* Fading effect: Verzoegerung, Angleichung, Transition. Uebergang einer Menge von Systle Property Zuweisuyng von einem Ausgangswert*/
     /* when it is not given, no transition event happens */
-    transition: opacity 3s;
+    transition: opacity var(--myapp-fading-transition-duration);
 }
 
 main {
     opacity: 1;
-    transition: opacity 2s;
+    transition: opacity var(--myapp-display-transition-duration);
 }
 
 
 
+
+
+
+
+/* This Selector should belong to Element in list in Main Tag.  !!!! has to be consolidated */
 /* img + text is zu lange, dann umbruch. try to aviod it */
 li h2 {
     text-overflow: ellipsis; /* Adds "..." at the end of the text if it overflows */

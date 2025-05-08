@@ -11,6 +11,8 @@
     <!-- add interaction control -->
     <script type="application/javascript" src="js/jsl.js"></script>
     <script type="application/javascript" src="js/jsr.js"></script>
+<!--    <script type="module" src="js/jsl.js"></script>-->
+<!--    <script type="module" src="js/jsr.js"></script>-->
     <!-- add the "library" script wrapping XMLHttpRequest -->
     <script type="application/javascript" src="js/lib/xhr.js"></script>
 </head>
@@ -20,58 +22,48 @@
         <h1 class="myapp-align-left">Medien</h1>
 
         <!-- pay a attention sequence of add and options. Sie werden nacheinander ganz nach rechts geschoben  -->
-        <button class="myapp-align-right myapp-img-option myapp-imgbutton">options</button>
         <button id="myapp-add-action" class="myapp-align-right myapp-img-plus myapp-imgbutton">add</button>
+        <button id="viewSwitcher" class="myapp-align-right myapp-img-tile myapp-imgbutton">options</button>
+
     </header>
 
     <main >
         <!--    <p></p>-->
+        <div class="puffer"></div>
         <ul>
             <template>
                 <li>
                     <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>
                     <h2>lirem</h2>
-                    <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
+                    <button class="myapp-img-option myapp-imgbutton myapp-align-right"></button>
                 </li>
             </template>
-            <li >
-                <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>
-                <h2>lirem</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/150_200_consectetur.jpg" class="myapp-align-left"/>
-                <h2>dopsum</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/200_150_adispicing.jpg" class="myapp-align-left"/>
-                <h2>olor</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>
-                <h2>sed</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>
-                <h2>lirem</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/150_200_consectetur.jpg" class="myapp-align-left"/>
-                <h2>dopsum</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
-            <li>
-                <img src="data/iamimg/200_150_adispicing.jpg" class="myapp-align-left"/>
-                <h2>olor</h2>
-                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>
-            </li>
+
+<!--            <li >-->
+<!--                <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>-->
+<!--                <h2>lirem</h2>-->
+<!--                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <img src="data/iamimg/150_200_consectetur.jpg" class="myapp-align-left"/>-->
+<!--                <h2>dopsum</h2>-->
+<!--                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <img src="data/iamimg/200_150_adispicing.jpg" class="myapp-align-left"/>-->
+<!--                <h2>olor</h2>-->
+<!--                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>-->
+<!--                <h2>sed</h2>-->
+<!--                <button class="myapp-img-edit myapp-imgbutton myapp-align-right"></button>-->
+<!--            </li>-->
+
         </ul>
     </main>
     <footer>
+        <button class="myapp-align-left myapp-img-logout  myapp-imgbutton">refresh</button>
         <button id="myapp-start-fading-action" class="myapp-align-right myapp-img-refresh  myapp-imgbutton">refresh</button>
     </footer>
 </body>
