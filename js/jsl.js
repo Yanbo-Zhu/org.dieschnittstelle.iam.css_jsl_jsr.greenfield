@@ -1,3 +1,7 @@
+
+
+//import { loadDataFromServerAndCreateList } from './jsr.js';
+
 class ViewController {
     constructor() {
         console.log("Constructor called");
@@ -6,25 +10,57 @@ class ViewController {
     oncreate() {
         // here, the view will be initialised
         this.prepareViewSwitching();
-        this.prepareFading();
+        //this.prepareFading();
         this.prepareListitemSelection();
         this.prepareAddingNewLiElements();
         this.loadDataFromServerAndCreateList();
     }
 
     prepareViewSwitching() {
-        const switchViewAction = this.root.getElementsByTagName('header')[0];
+        //const switchViewElement = this.root.getElementsByTagName('header')[0];
+
+        const switchViewElement = this.root.querySelector("#viewSwitcher");
         const switchViewTarget = this.root;
 
-        switchViewAction.onclick = function () {
-            switchViewTarget.classList.toggle('myapp-tiles');
+        const fadingTarget = this.root.getElementsByTagName('main')[0];
+
+        // get the fading transition duration from the css file
+        //const fadingDuration = getComputedStyle(fadingTarget).transitionDuration; // get the transition duration from the css file = 1s, not 2s.
+        const rootStyles = getComputedStyle(document.documentElement);
+        const fadingDuration = parseFloat(rootStyles.getPropertyValue('--myapp-fading-transition-duration').trim());
+        console.log("fadingDuration: " + Number(fadingDuration));
+
+        switchViewElement.onclick = function () {
+
+            fadingTarget.classList.toggle('myapp-faded');
+
+            fadingTarget.addEventListener('transitionend', () => {
+                fadingTarget.classList.toggle('myapp-faded');
+            }, {once: true}); // remove the event handler after it is called once
+
+            setTimeout(() => {
+                switchViewTarget.classList.toggle('myapp-tiles');
+
+                // Icon für Kachel- bzw. Listenansicht wird angepasst
+                if (switchViewElement.classList.contains("myapp-img-tile")) {
+                    switchViewElement.classList.replace("myapp-img-tile", "myapp-img-list");
+                } else if (switchViewElement.classList.contains("myapp-img-list")) {
+                    switchViewElement.classList.replace("myapp-img-list", "myapp-img-tile");
+                }
+            }, fadingDuration * 1000); // wait for the transition to finish before switching the view
+
         }
+
+
     }
 
     prepareFading() {
         // this.root.getElementsById does not exist, because getElementsById is not a method of the root element, it is a method of the document object. document.getElementsById  works
         // always return the first element with the specified id
-        const startFadingAction = this.root.querySelector('#myapp-start-fading-action');
+        //const startFadingAction = this.root.querySelector('#myapp-start-fading-action');
+
+        const startFadingAction = this.root.querySelector("#viewSwitcher");
+
         const fadingTarget = this.root.getElementsByTagName('main')[0];
 
         startFadingAction.onclick = () => {
@@ -45,13 +81,12 @@ class ViewController {
             // }
 
             // variant 3: use Eventlisten to implement the same function as above
-            // use Eventlisten to implement the same function as above
+
             fadingTarget.addEventListener('transitionend', () => {
                 fadingTarget.classList.toggle('myapp-faded');
             }, {once: true}); // remove the event handler after it is called once
 
         }
-
 
 
     }
@@ -83,11 +118,23 @@ class ViewController {
 
         // variant 3: use event bubbling to handle the click event on the parent element
         const LiRoot = this.root.querySelector("main ul");
+
         LiRoot.onclick = (evt) => {
             //let currentLi = evt.target;
             let currentLi = evt.target.closest("li"); // closest will find the closest ancestor of the element that matches the selector
             console.log(currentLi);
-            alert("slected:" + currentLi.querySelector("h2").textContent);
+
+            if (evt.target.classList.contains("myapp-img-option")) {
+                const title = currentLi.querySelector("h2").textContent;
+                const owner = "yzh"
+
+                alert("slected: " + title + " " + owner);
+
+            } else {
+                const title = currentLi.querySelector("h2").textContent;
+                alert("slected: " + title);
+            }
+
         }
     }
 
@@ -96,6 +143,7 @@ class ViewController {
 
         this.ListRoot = this.root.querySelector("main ul");
         this.ListElementTemplate = this.ListRoot.querySelector("template") // get the first li element as a template for the new li elements
+
         // this.ListElementTemplate.classList.remove('.myapp-template');
         // this.ListElementTemplate.parentNode.removeChild(this.ListElementTemplate); // remove the template element from the list, so it is not displayed in the list
 
@@ -158,14 +206,14 @@ class ViewController {
         // newLi.querySelector("h2").textContent = obj.title;
 
         // D) Standerd Html templates
-        const newLi =  document.importNode(this.ListElementTemplate.content, true).querySelector("li"); // clone the template element
-        console.log("newLi: " +newLi);
+        const newLi = document.importNode(this.ListElementTemplate.content, true).querySelector("li"); // clone the template element
+        console.log("newLi: " + newLi);
         newLi.querySelector("img").src = obj.src;
         newLi.querySelector("h2").textContent = obj.title;
 
         this.ListRoot.appendChild(newLi);
         newLi.scrollIntoView();
-        
+
         // This is all implementation of Data binding: use data binding to bind the data to the view
 
     }
@@ -177,39 +225,30 @@ class ViewController {
         // }, 1000)
 
         // delay 5 seconds , then send a request to the server
-        setTimeout( () => {
-                const req= new XMLHttpRequest();
-                req.open("GET", "./data/listitems.json", );
-                req.send();
-                req.onreadystatechange = () => {
-                    if (req.readyState === XMLHttpRequest.DONE) {
-                        if (req.status === 200) {
-                            const responseText = req.responseText;
-                            alert("response: " + responseText);
-                            const responseObjs = JSON.parse(responseText);
-                            console.log("Data loaded from server: ", responseObjs);
+        setTimeout(() => {
+            const req = new XMLHttpRequest();
+            req.open("GET", "./data/listitems.json",);
+            req.send();
+            req.onreadystatechange = () => {
+                if (req.readyState === XMLHttpRequest.DONE) {
+                    if (req.status === 200) {
+                        const responseText = req.responseText;
+                        // alert("response: " + responseText);
+                        const responseObjs = JSON.parse(responseText);
+                        console.log("Data loaded from server: ", responseObjs);
 
-                            // create the list with the data
-                            responseObjs.forEach(obj => {
-                                 this.addNewListElement(obj);
-                            });
-                        } else {
-                            console.error("Error loading data from server: ", req.statusText);
-                        }
+                        // create the list with the data
+                        responseObjs.forEach(obj => {
+                            this.addNewListElement(obj);
+                        });
+                    } else {
+                        console.error("Error loading data from server: ", req.statusText);
                     }
-
                 }
-            }, 2000)
 
-
-
-
-
-
+            }
+        }, 2000)
     }
-
-
-
 }
 
 window.onload = () => {
