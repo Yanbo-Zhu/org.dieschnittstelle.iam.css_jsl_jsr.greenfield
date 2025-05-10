@@ -8,11 +8,15 @@
     <title>IAM Greenfield</title>
     <!-- add style -->
     <link rel="stylesheet" href="css/css.css"/>
+
     <!-- add interaction control -->
     <script type="application/javascript" src="js/jsl.js"></script>
     <script type="application/javascript" src="js/jsr.js"></script>
-<!--    <script type="module" src="js/jsl.js"></script>-->
+
+
+    <!--    <script type="module" src="js/jsl.js"></script>-->
 <!--    <script type="module" src="js/jsr.js"></script>-->
+
     <!-- add the "library" script wrapping XMLHttpRequest -->
     <script type="application/javascript" src="js/lib/xhr.js"></script>
 </head>
@@ -33,9 +37,27 @@
         <ul>
             <template>
                 <li>
-                    <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>
-                    <h2>lirem</h2>
-                    <button class="myapp-img-option myapp-imgbutton myapp-align-right"></button>
+<!--                    <img src="data/iamimg/100_100_sed.jpg" class="myapp-align-left"/>-->
+<!--                    <h2>lirem</h2>-->
+<!--                    <button class="myapp-img-option myapp-imgbutton myapp-align-right"></button>-->
+
+                    <div class="image">
+                        <img src="./data/iamimg/100_100_sed.jpg"/>
+                    </div>
+                    <div class="content">
+                        <div class="row-top hide">
+                            <div class="owner">placekitten.com</div>
+                            <div class="date">09.05.2023</div>
+                        </div>
+                        <div class="title hide">sed</div>
+                        <div class="row-bottom">
+                            <div class="tags hide">
+                                <span class="tags-icon">▶</span>
+                                <span class="tags-value">8</span>
+                            </div>
+                            <div class="options myapp-imgbutton myapp-img-option"></div>
+                        </div>
+                    </div>
                 </li>
             </template>
 

@@ -1,42 +1,52 @@
-//
 
-export function loadDataFromServerAndCreateList() {
-    //
-    // setTimeout( () => {
-    //     windows.location = "http://192.168.13.48:8395/data/listitems.json";
-    // }, 1000)
-
-    // delay 5 seconds , then send a request to the server
-    setTimeout( () => {
-        const req= new XMLHttpRequest();
-        req.open("GET", "./data/listitems.json", );
+function loadDataFromServerAndCreateList(root) {
+    setTimeout(() => {
+        const req = new XMLHttpRequest();
+        req.open("GET", "./data/listitems.json");
         req.send();
         req.onreadystatechange = () => {
             if (req.readyState === XMLHttpRequest.DONE) {
                 if (req.status === 200) {
                     const responseText = req.responseText;
-                    // alert("response: " + responseText);
                     const responseObjs = JSON.parse(responseText);
                     console.log("Data loaded from server: ", responseObjs);
 
-                    // create the list with the data
                     responseObjs.forEach(obj => {
-                        this.addNewListElement(obj);
+                        addNewListElement(root, obj);
                     });
                 } else {
                     console.error("Error loading data from server: ", req.statusText);
                 }
             }
-
-        }
-    }, 2000)
-
+        };
+    }, 2000);
 }
 
-// class loadNewItems {
-//     constructor() {
-//         console.log("Constructor called");
-//     }
-//
-// }
+function prepareAddingNewLiElements(root) {
+    const addAction = root.querySelector("#myapp-add-action");
 
+    addAction.onclick = (evt) => {
+        evt.stopPropagation();
+        const newObj = {
+            title: "New Object " + Date.now(),
+            src: "data/iaming/200_150_adispicing.jpg",
+        };
+
+        addNewListElement(root, newObj);
+    };
+}
+
+function addNewListElement(root, obj) {
+    console.log("Adding new list element: ", obj);
+
+    const ListRoot = root.querySelector("main ul");
+    const ListElementTemplate = ListRoot.querySelector("template");
+
+    const newLi = document.importNode( ListElementTemplate.content, true).querySelector("li");
+    console.log("newLi: ", newLi);
+    newLi.querySelector("img").src = obj.src;
+    //newLi.querySelector("#title").textContent = obj.title;
+
+    ListRoot.appendChild(newLi);
+    newLi.scrollIntoView();
+}

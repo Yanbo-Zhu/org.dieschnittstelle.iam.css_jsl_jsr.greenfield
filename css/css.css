@@ -1,35 +1,41 @@
 /* variable declarations */
 :root {
     --myapp-color-background: white;
-    --myapp-color-header-border-line: gray;
-    --myapp-color-border-border-line: orange;
+    --myapp-default-space: 10px;
 
+    /* for the button in the header and footer */
+    --myapp-imgbutton-size: 40px;
+    --myapp-imgbutton-img-size: 25px;
 
+    --myapp-header-color-border-line: gray;
     --myapp-header-height: 50px;
     --myapp-header-font-size: 18pt;
     /*--myapp-header-background: rgb(60, 60, 60);*/
     --myapp-header-border-radius: 3px;
     --myapp-header-background: var(--myapp-color-background);
 
-    /*--myapp-main-background: rgb(45, 45, 45);*/
-    --myapp-main-background: var(--myapp-color-background);
 
+
+    --myapp-footer-color-border-line: orange;
     --myapp-footer-height: 40px;
     /*--myapp-footer-background: rgb(15, 15, 15);*/
     --myapp-footer-border-radius: 3px;
     --myapp-footer-background: var(--myapp-color-background);
 
 
-    --myapp-default-space: 10px;
+    /* for main block */
 
-    --myapp-imgbutton-size: 40px;
-    --myapp-imgbutton-img-size: 25px;
+    /*--myapp-main-background: rgb(45, 45, 45);*/
+    --myapp-main-background: var(--myapp-color-background);
 
+    --myapp-li-color-title: black;
+    --myapp-li-color-default: grey;
     --myapp-li-height: 70px;
-    --myapp-li-font-size: 20pt;
+    --myapp-li-title-font-size: 16pt;
     /*--myapp-li-bordercolor: rgb(120, 120, 120);*/
     --myapp-li-bordercolor: grey;
     --myapp-li-imagesize: 50px;
+    --myapp-li-imgbutton-list-options: 20px;
 
     /* fading animation */
     --myapp-display-transition-duration: 1s;
@@ -68,7 +74,7 @@ header {
     height: calc(var(--myapp-header-height) - var(--myapp-header-border-radius));
     background-color: var(--myapp-header-background);
     /*padding: var(--myapp-default-space);*/
-    border-bottom: var(--myapp-header-border-radius) solid var(--myapp-color-header-border-line);
+    border-bottom: var(--myapp-header-border-radius) solid var(--myapp-header-color-border-line);
 
 }
 
@@ -88,7 +94,7 @@ main {
 footer {
     height: calc(var(--myapp-footer-height) - var(--myapp-footer-border-radius));
     background-color: var(--myapp-footer-background);
-    border-top: var(--myapp-footer-border-radius) solid var(--myapp-color-border-border-line);
+    border-top: var(--myapp-footer-border-radius) solid var(--myapp-footer-color-border-line);
 }
 
 .myapp-align-left {
@@ -213,7 +219,11 @@ main ul li {
     margin: 0;
     padding: 0;
     height: var(--myapp-li-height);
-    border-bottom: 1px solid var(--myapp-li-bordercolor);
+    border-top: 1px solid var(--myapp-li-bordercolor);
+    display: flex;
+    color: var(--myapp-li-color-default);
+    font-size: 12px;
+
 }
 
 /* Remove the top border from the first item */
@@ -223,48 +233,110 @@ main ul li:first-child {
 
 /* Remove the bottom border from the last item */
 main ul li:last-child {
-    border-bottom: none;
+    border-bottom: 1px solid var(--myapp-li-bordercolor);
 }
 
-main ul li h2 {
-    margin: 0;
-    padding: 0;
-    height: 100%; /* Makes the h2 as tall as its parent container */
-    line-height: var(--myapp-li-height); /* When an element contains only one line of text, and The line-height is set equal to the element's height, amd There’s no additional padding, borders, or vertical alignment tweaks. Then the text will appear vertically centered inside the element.
-    Imagine line-height as the height of a mattress, and the text is lying on that mattress. If the mattress fills the entire box (same height as the element), the text will lie right in the center vertically. */
-    margin-left: var(--myapp-default-space);
-
-    display: inline-block; /* h2 ist blockelement in default. blockelement takes full width of its parent container. The edit button will be set under of the h2 element if it is set as a blockelement. */
-
-    font-size: var(--myapp-li-font-size);
-    font-weight: normal
-}
-
-
-
-main li .myapp-img-option {
-    margin-top: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
-    margin-bottom: calc((var(--myapp-li-height) - var(--myapp-imgbutton-size)) / 2);
-}
-
-main li img {
+main li .image {
     height: var(--myapp-li-imagesize);
     width: var(--myapp-li-imagesize);
     margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
     margin-left: var(--myapp-default-space);
+    margin-right: var(--myapp-default-space);
+}
+
+main li .image img {
+    width: 100%;
+    height: 100%;
     object-fit: cover; /* Ensures the image covers the entire area of its container */
 }
 
+main li .content {
+    flex: 1;
+    margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
+    margin-right: var(--myapp-default-space);
+}
+
+main li .row-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+main li .owner {
+    /*margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) / 2.5);*/
+    font-size: 0.9em;
+}
+
+main li .date {
+    font-size: 0.9em;
+}
+
+main li .title {
+    margin: 4px 0 4px 0;
+    color: var(--myapp-li-color-title);
+    font-weight: normal;
+}
+
+main li .row-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+main li .tags {
+    display: flex;
+    align-items: center;
+}
+
+main li .tags-icon {
+    margin-right: 4px;
+}
+
+main li .options {
+    height: var(--myapp-li-imgbutton-list-options);
+    width: var(--myapp-li-imgbutton-list-options);
+}
+
+
+main ul li h2 {
+    color: var(--myapp-li-color-title);
+    margin: 0;
+    padding: 0;
+    /*height: 100%; !* Makes the h2 as tall as its parent container *!*/
+
+    /* When an element contains only one line of text, and The line-height is set equal to the element's height, amd There’s no additional padding, borders, or vertical alignment tweaks. Then the text will appear vertically centered inside the element. Imagine line-height as the height of a mattress, and the text is lying on that mattress. If the mattress fills the entire box (same height as the element), the text will lie right in the center vertically. */
+    /*line-height: var(--myapp-li-height); */
+
+    /*margin-left: var(--myapp-default-space);*/
+
+    /* h2 ist blockelement in default. blockelement takes full width of its parent container. The edit button will be set under of the h2 element if it is set as a blockelement. */
+    /*display: inline-block; */
+
+    font-size: var(--myapp-li-title-font-size);
+    font-weight: normal;
+
+
+    /* img + text is zu lange, dann umbruch. try to aviod it */
+    text-overflow: ellipsis; /* Adds "..." at the end of the text if it overflows */
+    white-space: nowrap;
+    overflow: hidden; /* Hides the overflow. This is important to make the ellipsis work */
+    max-width: calc(100vw - (var(--myapp-li-imagesize)  + var(--myapp-imgbutton-size) + 4* var(--myapp-default-space))); /* Sets the maximum width of the text */
+    /*min-width: 0;*/
+}
 
 /*
 * Kachelansicht: Tiles-mode
 */
 
-.myapp-tiles li * {
+/*.myapp-tiles ul li * {*/
+/*    display: none;*/
+/*}*/
+
+.myapp-tiles ul li .hide {
     display: none;
 }
 
-.myapp-tiles li {
+.myapp-tiles ul li {
     display: inline-block;
 
     /*
@@ -295,12 +367,20 @@ main li img {
 }
 
 
-
-.myapp-tiles li img {
+.myapp-tiles ul li img {
     display: block;
     margin: 0;
     height: 100%;
     width: 100%;
+}
+
+.myapp-tiles ul li div.options{
+    display: block !important;
+    filter: invert(90%);
+    -webkit-filter: invert(90%);
+    /*--myapp-tiles-size: calc((100vw - ((var(--myapp-tiles-per-line) + 1) * var(--myapp-default-space))) / var(--myapp-tiles-per-line));*/
+    /*margin-top: calc(var(--myapp-tiles-size) - var(--myapp-default-space) * 4);*/
+    /*margin-left: calc(var(--myapp-tiles-size) - var(--myapp-default-space) * 3);*/
 }
 
 
@@ -357,18 +437,6 @@ main {
 
 
 
-/* This Selector should belong to Element in list in Main Tag.  !!!! has to be consolidated */
-/* img + text is zu lange, dann umbruch. try to aviod it */
-li h2 {
-    text-overflow: ellipsis; /* Adds "..." at the end of the text if it overflows */
-    white-space: nowrap;
-    overflow: hidden; /* Hides the overflow. This is important to make the ellipsis work */
-    max-width: calc(100vw - (var(--myapp-li-imagesize)  + var(--myapp-imgbutton-size) + 4* var(--myapp-default-space))); /* Sets the maximum width of the text */
-    /*min-width: 0;*/
-}
 
-.myapp-template {
-    display: none;
-}
 
 
