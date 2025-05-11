@@ -18,8 +18,8 @@
 
     --myapp-footer-color-border-line: orange;
     --myapp-footer-height: 40px;
-    /*--myapp-footer-background: rgb(15, 15, 15);*/
     --myapp-footer-border-radius: 3px;
+    /*--myapp-footer-background: rgb(15, 15, 15);*/
     --myapp-footer-background: var(--myapp-color-background);
 
 
@@ -88,7 +88,6 @@ main {
     /*padding: var(--myapp-default-space);*/
     overflow-y: scroll; /* Allows vertical scrolling */
     box-sizing: border-box; /* Ensures padding is included in height calculation. Crucial line: ensures that the height includes the padding (and borders, if any), so the content area does not accidentally overflow the allocated space.*/
-
 }
 
 footer {
@@ -359,6 +358,7 @@ main li .options {
 /*    !*min-width: 0;*!*/
 /*}*/
 
+
 /*
 * Kachelansicht: Tiles-mode
 */
@@ -388,16 +388,13 @@ main li .options {
      */
     /*--myapp-tiles-per-line: 3;*/
 
+
     /* Breite und Höhe der Liste:
     ( Bereite der Anzeigeflaesche - ( (Anzahl der Kacheln pro Zeile + 1)* Breite eines einzelnen Abstand) )/ Anzahl der Kacheln Pro Zeile
-
      ( var(--myapp-tiles-per-line) + 1 ) * var(--myapp-default-space)
 = total space taken by gaps between tiles (including the gap before the first and after the last tile).
-
     Subtract that total gap width from 100vw.
-
     Divide the remaining space by the number of tiles to get the width of each tile.
-
      */
     --myapp-tiles-size: calc((100vw - (( var(--myapp-tiles-per-line) + 1 ) * var(--myapp-default-space)))/var(--myapp-tiles-per-line));
 
