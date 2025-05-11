@@ -76,6 +76,10 @@ header {
     /*padding: var(--myapp-default-space);*/
     border-bottom: var(--myapp-header-border-radius) solid var(--myapp-header-color-border-line);
 
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
 }
 
 /*
