@@ -31,11 +31,11 @@
     --myapp-li-color-title: black;
     --myapp-li-color-default: grey;
     --myapp-li-height: 70px;
-    --myapp-li-title-font-size: 16pt;
+    --myapp-li-font-size: 12px;
     /*--myapp-li-bordercolor: rgb(120, 120, 120);*/
     --myapp-li-bordercolor: grey;
     --myapp-li-imagesize: 50px;
-    --myapp-li-imgbutton-list-options: 20px;
+    --myapp-li-imgbutton-list-options: 18px;
 
     /* fading animation */
     --myapp-display-transition-duration: 1s;
@@ -167,7 +167,6 @@ footer {
 
 
 
-
 /*
 * Element in Header
 */
@@ -188,8 +187,6 @@ header .myapp-imgbutton {
 
 
 
-
-
 /*
 Element in footer
  */
@@ -200,7 +197,7 @@ footer .myapp-imgbutton {
 
 
 /*
-* Element in list in Main Tag
+* Element in list in Main Element
 */
 
 /* grauer Puffer */
@@ -220,10 +217,9 @@ main ul li {
     padding: 0;
     height: var(--myapp-li-height);
     border-top: 1px solid var(--myapp-li-bordercolor);
-    display: flex;
+    overflow: visible; /* or auto */
     color: var(--myapp-li-color-default);
-    font-size: 12px;
-
+    font-size: var(--myapp-li-font-size);
 }
 
 /* Remove the top border from the first item */
@@ -231,17 +227,18 @@ main ul li:first-child {
     border-top: none;
 }
 
-/* Remove the bottom border from the last item */
+/* add the bottom border from the last item */
 main ul li:last-child {
     border-bottom: 1px solid var(--myapp-li-bordercolor);
 }
 
 main li .image {
+    float: left;
     height: var(--myapp-li-imagesize);
     width: var(--myapp-li-imagesize);
     margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
-    margin-left: var(--myapp-default-space);
     margin-right: var(--myapp-default-space);
+    margin-left: var(--myapp-default-space);
 }
 
 main li .image img {
@@ -250,79 +247,117 @@ main li .image img {
     object-fit: cover; /* Ensures the image covers the entire area of its container */
 }
 
-main li .content {
-    flex: 1;
+main li .wrapper {
+    display: block;
+    overflow: hidden;
+    /*text-overflow: ellipsis; !* Adds "..." at the end of the text if it overflows *!*/
+    /*white-space: nowrap;*/
+
     margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
     margin-right: var(--myapp-default-space);
+    max-width: calc(100% - (var(--myapp-li-imagesize)  + 3*var(--myapp-default-space))); /* Sets the maximum width of the text */
 }
 
 main li .row-top{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
+
+}
+
+/* clearfix for the floated elements.  This ensures that the parent element (li) expands to contain its floated children (image, owner, date). otherwise the li element would collapse to zero heigh,  because the floated elements are taken out of the normal flow of the document. */
+main li .row-top::after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
 main li .owner {
     /*margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) / 2.5);*/
+    float: left;
     font-size: 0.9em;
 }
 
 main li .date {
+    float: right;
     font-size: 0.9em;
 }
 
 main li .title {
     margin: 4px 0 4px 0;
     color: var(--myapp-li-color-title);
+    font-size: 1.1em;
     font-weight: normal;
+    clear: both; /* Ensures the title appears below the floated elements */
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block; /* required for ellipsis to work */
+}
+
+main li .title::after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
 main li .row-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+
+}
+
+main li .row-bottom::after {
+    content: "";
+    display: block;
+    clear: both;
 }
 
 main li .tags {
-    display: flex;
-    align-items: center;
+    float: left;
+    height: 100%;
+    line-height: 100%;
 }
 
 main li .tags-icon {
-    margin-right: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+main li .tags-value {
+    display: inline-block;
+    vertical-align: middle; /* (h) centered with icon */
 }
 
 main li .options {
+    float: right;
     height: var(--myapp-li-imgbutton-list-options);
     width: var(--myapp-li-imgbutton-list-options);
 }
 
 
-main ul li h2 {
-    color: var(--myapp-li-color-title);
-    margin: 0;
-    padding: 0;
-    /*height: 100%; !* Makes the h2 as tall as its parent container *!*/
+/*main ul li h2 {*/
+/*    color: var(--myapp-li-color-title);*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    !*height: 100%; !* Makes the h2 as tall as its parent container *!*!*/
 
-    /* When an element contains only one line of text, and The line-height is set equal to the element's height, amd There’s no additional padding, borders, or vertical alignment tweaks. Then the text will appear vertically centered inside the element. Imagine line-height as the height of a mattress, and the text is lying on that mattress. If the mattress fills the entire box (same height as the element), the text will lie right in the center vertically. */
-    /*line-height: var(--myapp-li-height); */
+/*    !* When an element contains only one line of text, and The line-height is set equal to the element's height, amd There’s no additional padding, borders, or vertical alignment tweaks. Then the text will appear vertically centered inside the element. Imagine line-height as the height of a mattress, and the text is lying on that mattress. If the mattress fills the entire box (same height as the element), the text will lie right in the center vertically. *!*/
+/*    !*line-height: var(--myapp-li-height); *!*/
 
-    /*margin-left: var(--myapp-default-space);*/
+/*    !*margin-left: var(--myapp-default-space);*!*/
 
-    /* h2 ist blockelement in default. blockelement takes full width of its parent container. The edit button will be set under of the h2 element if it is set as a blockelement. */
-    /*display: inline-block; */
+/*    !* h2 ist blockelement in default. blockelement takes full width of its parent container. The edit button will be set under of the h2 element if it is set as a blockelement. *!*/
+/*    !*display: inline-block; *!*/
 
-    font-size: var(--myapp-li-title-font-size);
-    font-weight: normal;
+/*    font-size: var(--myapp-li-title-font-size);*/
+/*    font-weight: normal;*/
 
 
-    /* img + text is zu lange, dann umbruch. try to aviod it */
-    text-overflow: ellipsis; /* Adds "..." at the end of the text if it overflows */
-    white-space: nowrap;
-    overflow: hidden; /* Hides the overflow. This is important to make the ellipsis work */
-    max-width: calc(100vw - (var(--myapp-li-imagesize)  + var(--myapp-imgbutton-size) + 4* var(--myapp-default-space))); /* Sets the maximum width of the text */
-    /*min-width: 0;*/
-}
+/*    !* img + text is zu lange, dann umbruch. try to aviod it *!*/
+/*    text-overflow: ellipsis; !* Adds "..." at the end of the text if it overflows *!*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden; !* Hides the overflow. This is important to make the ellipsis work *!*/
+/*    max-width: calc(100vw - (var(--myapp-li-imagesize)  + var(--myapp-imgbutton-size) + 4* var(--myapp-default-space))); !* Sets the maximum width of the text *!*/
+/*    !*min-width: 0;*!*/
+/*}*/
 
 /*
 * Kachelansicht: Tiles-mode
@@ -332,6 +367,14 @@ main ul li h2 {
 /*    display: none;*/
 /*}*/
 
+.myapp-tiles ul {
+
+    /*
+    how many tiles should fit in a single row (e.g. 3).
+    */
+    --myapp-tiles-per-line: 3;
+}
+
 .myapp-tiles ul li .hide {
     display: none;
 }
@@ -339,10 +382,11 @@ main ul li h2 {
 .myapp-tiles ul li {
     display: inline-block;
 
+
     /*
-    how many tiles should fit in a single row (e.g. 3).
-    */
-    --myapp-tiles-per-line: 3;
+    You're defining a CSS variable --myapp-tiles-per-line inside the <li> element, but trying to use it within the same element to calculate its own width (--myapp-tiles-size). This won't work as expected in your responsive design because CSS variables defined inside a selector like .myapp-tiles li are scoped to its descendants, not to the element itself.
+     */
+    /*--myapp-tiles-per-line: 3;*/
 
     /* Breite und Höhe der Liste:
     ( Bereite der Anzeigeflaesche - ( (Anzahl der Kacheln pro Zeile + 1)* Breite eines einzelnen Abstand) )/ Anzahl der Kacheln Pro Zeile
@@ -364,23 +408,30 @@ main ul li h2 {
     margin-top: var(--myapp-default-space);
     border: none;
     float: left;
+    position: relative;
 }
 
 
-.myapp-tiles ul li img {
+/* remove the bottom border from the last item */
+.myapp-tiles ul li:last-child {
+    border-bottom: none;
+}
+
+.myapp-tiles ul li .image {
     display: block;
     margin: 0;
     height: 100%;
     width: 100%;
 }
 
-.myapp-tiles ul li div.options{
-    display: block !important;
+.myapp-tiles ul li .options{
+    display: block;
     filter: invert(90%);
     -webkit-filter: invert(90%);
-    /*--myapp-tiles-size: calc((100vw - ((var(--myapp-tiles-per-line) + 1) * var(--myapp-default-space))) / var(--myapp-tiles-per-line));*/
-    /*margin-top: calc(var(--myapp-tiles-size) - var(--myapp-default-space) * 4);*/
-    /*margin-left: calc(var(--myapp-tiles-size) - var(--myapp-default-space) * 3);*/
+
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
 }
 
 
@@ -388,34 +439,42 @@ main ul li h2 {
 * Responsive design
 */
 
+@media (min-width: 200px) {
+    .myapp-tiles ul {
+        --myapp-tiles-per-line: 2;
+    }
+}
+
 @media (min-width: 400px) {
-    .myapp-tiles li {
+    .myapp-tiles ul {
         --myapp-tiles-per-line: 4;
     }
 }
 
-@media (min-width: 500px) {
-    .myapp-tiles li {
-        --myapp-tiles-per-line: 7;
+@media (min-width: 600px) {
+    .myapp-tiles ul {
+        --myapp-tiles-per-line: 5;
     }
 }
 
-@media (min-width: 600px) {
-    .myapp-tiles li {
+@media (min-width: 800px) {
+    .myapp-tiles ul {
+        --myapp-tiles-per-line: 8;
+    }
+}
+
+@media (min-width: 1000px) {
+    .myapp-tiles ul {
         --myapp-tiles-per-line: 10;
     }
 }
-
 
 /*
 * fading animation
 */
 
-
-
 /*
 main.myapp-faded: Select any <main> element that has the class myapp-faded.
-
 main .myapp-faded: Select any element with class myapp-faded that is inside a <main> element (any depth).
 */
 main.myapp-faded {

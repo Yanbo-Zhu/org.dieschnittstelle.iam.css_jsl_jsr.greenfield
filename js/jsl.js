@@ -14,12 +14,13 @@ class ViewController {
         this.prepareListitemSelection();
         loadDataFromServerAndCreateList(this.root)
         prepareAddingNewLiElements(this.root);
+        prepareRefreshList(this.root);
     }
 
     prepareViewSwitching() {
         //const switchViewElement = this.root.getElementsByTagName('header')[0];
 
-        const switchViewElement = this.root.querySelector("#viewSwitcher");
+        const switchViewElement = this.root.querySelector("#myapp-start-view-switch-action");
         const switchViewTarget = this.root;
 
         const fadingTarget = this.root.getElementsByTagName('main')[0];
@@ -59,7 +60,7 @@ class ViewController {
         // always return the first element with the specified id
         //const startFadingAction = this.root.querySelector('#myapp-start-fading-action');
 
-        const startFadingAction = this.root.querySelector("#viewSwitcher");
+        const startFadingAction = this.root.querySelector("#myapp-start-view-switch-action");
 
         const fadingTarget = this.root.getElementsByTagName('main')[0];
 
@@ -85,10 +86,7 @@ class ViewController {
             fadingTarget.addEventListener('transitionend', () => {
                 fadingTarget.classList.toggle('myapp-faded');
             }, {once: true}); // remove the event handler after it is called once
-
         }
-
-
     }
 
     prepareListitemSelection() {
@@ -123,16 +121,22 @@ class ViewController {
             //let currentLi = evt.target;
             let currentLi = evt.target.closest("li"); // closest will find the closest ancestor of the element that matches the selector
             console.log(currentLi);
+            const title = currentLi.querySelector(".title").textContent;
+            const src = currentLi.querySelector("img").src
 
             if (evt.target.classList.contains("myapp-img-option")) {
-                const title = currentLi.querySelector("h2").textContent;
-                const owner = "yzh"
 
-                alert("slected: " + title + " " + owner);
-
+                const confirmation = confirm(
+                    "Please confirm whether you want to delete this item\n\n" +
+                    "Titel: " + title + "\n" +
+                    "URL: " + src
+                );
+                if (confirmation) {
+                    // Element aus der Liste entfernen
+                    currentLi.remove();
+                }
             } else {
-                const title = currentLi.querySelector("h2").textContent;
-                alert("slected: " + title);
+                alert("Title: " + title);
             }
 
         }
