@@ -12,7 +12,7 @@ async function loadDataFromServerAndCreateList(root) {
         //global variables
         const dataUrl = "./data/listitems.json";
         const xmlHttpRequest_or_fetch = "fetch";
-        const xmlHttpRequest_onreadystatechange_or_onload = "onload";
+        const xmlHttpRequest_onreadystatechange_or_onload = "onload"; // onreadystatechange or onload
         const fetch_use_async_await = true;
         const fetch_use_then_chain = false;
         const fetch_use_responseTextPromise_or_responseJsonPromise = "responseTextPromise";
@@ -103,6 +103,8 @@ async function loadDataFromServerAndCreateList(root) {
                     console.log("res: ",resPromise);
 
                     resPromise.then(response => {
+
+                        // variant 2.1.1: use response.text() to get the response, not response.json()
                         if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseTextPromise") {
 
                             // then is a method of the promise object that takes a callback function as an argument
@@ -236,6 +238,12 @@ function prepareAddingNewLiElements(root) {
     const addAction = root.querySelector("#myapp-add-action");
 
     addAction.onclick = (evt) => {
+
+        // evt.stopPropagation() — What does it do?
+        // When an event happens (like a click), it "bubbles" up through the DOM tree — from the innermost element where it happened up through its ancestors, triggering any event listeners on those ancestors for the same event type.
+        // Wenn ein Ereignis (z.B. ein Klick) auf einem Element ausgelöst wird, blubbert es normalerweise nach oben durch die DOM-Hierarchie — also vom innersten Element über die Eltern bis ganz nach oben, und dabei werden alle passenden Event-Handler auf den übergeordneten Elementen ebenfalls ausgeführt.
+        // evt.stopPropagation() prevents this bubbling, meaning the event will stop at the current element and won't be triggered on parent elements.
+        // Das bedeutet: Das Ereignis wird nur auf dem aktuellen Element behandelt und nicht weiter an die Eltern weitergegeben.
         evt.stopPropagation();
         const newObj = {
             title: "New Object ",
@@ -257,8 +265,18 @@ function addNewListElement(root, obj) {
     console.log("Adding new list element: ", obj);
 
     const ListRoot = root.querySelector("main ul");
+
+    // ListElementTemplate is a reference to a <template> element in your HTML.
+    // The .content property gives you the document fragment inside the template — basically the DOM nodes defined inside the template, but not rendered on the page yet.
     const ListElementTemplate = ListRoot.querySelector("template");
 
+    //  document.importNode(..., true)
+    // The method importnode creates a deep clone (copy) of the node you pass it.
+    // The first argument is the node to clone (ListElementTemplate.content here).
+    // The second argument true means a deep clone (copy all child nodes as well).
+    // This lets you create a fresh copy of the template content to use without modifying the original template.
+    // .querySelector("li")
+    // After cloning, this finds the first <li> element inside the cloned content. So you get the actual <li> element defined inside the template.
     const newLi = document.importNode( ListElementTemplate.content, true).querySelector("li");
 
     newLi.querySelector("img").src = obj.src;
@@ -283,6 +301,11 @@ function prepareRefreshList(root) {
     const refreshAction = root.querySelector("#myapp-start-refresh-action");
 
     refreshAction.onclick = (evt) => {
+        // evt.stopPropagation() — What does it do?
+        // When an event happens (like a click), it "bubbles" up through the DOM tree — from the innermost element where it happened up through its ancestors, triggering any event listeners on those ancestors for the same event type.
+        // Wenn ein Ereignis (z.B. ein Klick) auf einem Element ausgelöst wird, blubbert es normalerweise nach oben durch die DOM-Hierarchie — also vom innersten Element über die Eltern bis ganz nach oben, und dabei werden alle passenden Event-Handler auf den übergeordneten Elementen ebenfalls ausgeführt.
+        // evt.stopPropagation() prevents this bubbling, meaning the event will stop at the current element and won't be triggered on parent elements.
+        // Das bedeutet: Das Ereignis wird nur auf dem aktuellen Element behandelt und nicht weiter an die Eltern weitergegeben.
         evt.stopPropagation();
         const ListRoot = root.querySelector("main ul");
         //const ListElementTemplate = ListRoot.querySelector("template");

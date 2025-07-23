@@ -483,6 +483,7 @@ main.myapp-faded {
 
     /* Fading effect: Verzoegerung, Angleichung, Transition. Uebergang einer Menge von Systle Property Zuweisuyng von einem Ausgangswert*/
     /* when it is not given, no transition event happens */
+    /*This line creates a smooth fading effect when the opacity value changes. Instead of changing immediately, the change happens over time. The duration is defined by the CSS variable --myapp-fading-transition-duration.*/
     transition: opacity var(--myapp-fading-transition-duration);
 }
 
