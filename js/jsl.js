@@ -37,8 +37,9 @@ class ViewController {
 
             fadingTarget.addEventListener('transitionend', () => {
                 fadingTarget.classList.toggle('myapp-faded');
-            }, {once: true}); // remove the event handler after it is called once
+            }, {once: true}); // remove the event handler after it is called once. after the transition is finished, the class myapp-faded is removed from the fadingTarget element.
 
+            // setTimeout(callback, delay): // The callback function will be executed after the specified delay in milliseconds.
             setTimeout(() => {
                 switchViewTarget.classList.toggle('myapp-tiles');
 
@@ -48,7 +49,7 @@ class ViewController {
                 } else if (switchViewElement.classList.contains("myapp-img-list")) {
                     switchViewElement.classList.replace("myapp-img-list", "myapp-img-tile");
                 }
-            }, fadingDuration * 1000); // wait for the transition to finish before switching the view
+            }, fadingDuration * 1000); // wait for the transition to finish before switching the view.
 
         }
 
@@ -89,6 +90,8 @@ class ViewController {
         }
     }
 
+
+    // When the user clicks on a list item, the title of the item is displayed in an confirm box. But when the user clicks on the options image, a confirmation dialog is shown to delete the item.
     prepareListitemSelection() {
         const lis = this.root.getElementsByTagName("li");
 

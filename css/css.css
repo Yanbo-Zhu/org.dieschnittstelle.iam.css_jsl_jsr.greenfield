@@ -79,6 +79,11 @@ header {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    /*block element: Takes up the full width of its parent by default
+    * inline-block element: Takes up only as much width as its content requires, but can still have a width set. It allows for padding and margins to be applied on all sides, and it can contain block-level elements.
+    * inline element: Takes up only as much width as its content requires, and it does not allow for width or height to be set. It cannot contain block-level elements.
+    */
     display: block;
 }
 
@@ -183,7 +188,7 @@ header h1 {
     display: inline-block; /* Allows the h1 to be treated as a block element */
 }
 
-/* set hte poistion of image im the middle of entire height of container*/
+/* set the position of image im the middle of entire height of container*/
 header .myapp-imgbutton {
     margin-top: calc((var(--myapp-header-height) - var(--myapp-imgbutton-size)) / 2);
 }
@@ -236,7 +241,7 @@ main ul li:last-child {
 }
 
 main li .image {
-    float: left;
+    float: left;  /*makes an element "float" to the left side of its container*/
     height: var(--myapp-li-imagesize);
     width: var(--myapp-li-imagesize);
     margin-top: calc((var(--myapp-li-height) - var(--myapp-li-imagesize)) /2 );
@@ -265,7 +270,13 @@ main li .row-top{
 
 }
 
-/* clearfix for the floated elements.  This ensures that the parent element (li) expands to contain its floated children (image, owner, date). otherwise the li element would collapse to zero heigh,  because the floated elements are taken out of the normal flow of the document. */
+/*
+* "After" = after the element’s original content, not after the element itself.
+* ::after: a pseudo-element that inserts generated content after the content of .row-top. ::after creates a virtual element after the actual content of the selected element. It refers to position inside the element, not after the whole element in the DOM. It means that the ::after pseudo-element is positioned inside the .row-top element, not outside of it. it will overwrite the default behavior of the element,
+*clearfix for the floated elements.  This ensures that the parent element (li) expands to contain its floated children (image, owner, date). otherwise the li element would collapse to zero height,  because the floated elements are taken out of the normal flow of the document.
+* Clear floated child elements inside .row-top. Prevent layout issues (like parent collapsing)
+
+*/
 main li .row-top::after {
     content: "";
     display: block;
@@ -430,6 +441,10 @@ main li .options {
     filter: invert(90%);
     -webkit-filter: invert(90%);
 
+    /*
+    position: absolute positions an element relative to the nearest ancestor that is positioned (i.e., has position: relative, absolute, fixed, or sticky). If no such ancestor exists, the element is positioned relative to the entire page (<html> or <body>), which is usually not what you want.
+    Ein Element mit position: absolute wird relativ zum nächsten „positionierten“ Vorfahren positioniert. ? „Positioniert“ bedeutet: Das Element hat position: relative, absolute, fixed oder sticky.
+   */
     position: absolute;
     bottom: 5%;
     right: 5%;

@@ -1,4 +1,5 @@
 
+// die Funktion xhr() aus der Skriptdatei js/lib/xhr.js nutzen, die die Verwendung von XMLHttpRequest für den Zugriff auf den Server kapselt.
 async function loadDataFromServerAndCreateList(root) {
 
     // reload the windows again and access the designated url address
@@ -17,13 +18,15 @@ async function loadDataFromServerAndCreateList(root) {
         const fetch_use_then_chain = false;
         const fetch_use_responseTextPromise_or_responseJsonPromise = "responseTextPromise";
 
+        //variant 1: use XMLHttpRequest to load the data from the server
         if (xmlHttpRequest_or_fetch === "xmlHttpRequest") {
-            //variant 1: use XMLHttpRequest to load the data from the server
             const req = new XMLHttpRequest();
             req.open("GET", dataUrl);
             req.send();
             console.log("xmlHttpRequest send has been executed .. ")
 
+            //Variant 1.1: use req.onreadystatechange to handle the response
+            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
             if (xmlHttpRequest_onreadystatechange_or_onload === "onreadystatechange") {
 
                 // req.onreadystatechange = () => {}
@@ -31,8 +34,7 @@ async function loadDataFromServerAndCreateList(root) {
                 // Strukturtisch:  ist  an callback function, because it is called when the event is fired
                 // Syntaktische ist eine lambda function
 
-                //variant 1.1: use req.onreadystatechange to handle the response
-                // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+
                 // jede readyState ist eine Zahl von 0 bis 4.  0 = unsent, 1 = opened, 2 = headers received, 3 = loading, 4 = done
                 req.onreadystatechange = () => {
                     if (req.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
@@ -60,7 +62,7 @@ async function loadDataFromServerAndCreateList(root) {
                 }
 
             } else if (xmlHttpRequest_onreadystatechange_or_onload) {
-                // variant 1.2: use req.onload to handle the response
+                // Variant 1.2: use req.onload to handle the response
                 // req.onload is an event handler for an XMLHttpRequest that runs when the request completes successfully (i.e. the response is fully received, regardless of its status code).
 
                 req.onload = () => {
@@ -84,27 +86,31 @@ async function loadDataFromServerAndCreateList(root) {
             // variant 2: use fetch to load the data from the server
 
             // promise-based API: promise is an object that represents the result of an asynchronous operation.
+            // A Promise is a JavaScript object used to handle asynchronous operations, like fetching data from an API.
+            // A Promise is a better alternative to callbacks. It represents a value that may be available now, later, or never.
             // promise has three states:
             // pending: the initial state, neither fulfilled nor rejected
             // fulfilled: meaning that the operation was completed successfully
             // rejected: meaning that the operation failed
 
-            // the fetch method returns a promise that resolves to the Response object representing the response to the request. the response variable take the response of request. The then() method is called with this Response object as its argument.
+            // the fetch method returns a promise that resolves to the Response object representing the response to the request. the response variable take the response of request.
+            // The then() method is called with this Response object as its argument.
+            // The catch() method is called with an error handler that will be called if the request fails. The Response object contains the response data, including the status code and the response body.
             // The Response object contains the response data, including the status code and the response body.
 
 
+            // Variant 2.1: Do no use async_await
             if (!fetch_use_async_await) {
+
+                // variant 2.1.1: Do not use then chain to load the data which is obtained from the fetch method
                 if (!fetch_use_then_chain) {
-
-                    // variant 2.1: Do not use then chain to load the data from the server step by step
-
                     // resPromise is a promise, so we can use then() to handle the response
                     const resPromise = fetch(dataUrl);
                     console.log("res: ",resPromise);
 
                     resPromise.then(response => {
 
-                        // variant 2.1.1: use response.text() to get the response, not response.json()
+                        // Variant 2.1.1.1: use response.text() to get the response, not response.json()
                         if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseTextPromise") {
 
                             // then is a method of the promise object that takes a callback function as an argument
@@ -133,7 +139,7 @@ async function loadDataFromServerAndCreateList(root) {
 
                         } else if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseJsonPromise") {
 
-                            // variant 2.1.2: use response.json() to get the response json
+                            // variant 2.1.1.2: use response.json() to get the response json
                             // response.json() returns a promise, so we can use then() to handle the response. response.json() method returns a promise that resolves to the result of parsing the body text as JSON
                             const responseJsonPromise = response.json();
                             responseJsonPromise.then( jsonObjs  => {
@@ -148,12 +154,14 @@ async function loadDataFromServerAndCreateList(root) {
 
                 } else {
 
-                    // variant 2.2: use then chain to load the data from the server step by step
+                    // variant 2.1.2: use then chain to load the data which is obtained from the fetch method
                     // then() chain to hande the response which is obtained the fetch method
 
+
+                    // Variant 2.1.2.1: use response.text() to get the response text
                     if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseTextPromise") {
 
-                        // variant 2.2.1: use response.text() to get the response text
+                        // Variant 2.2.1: use response.text() to get the response text
                         fetch(dataUrl)
                             .then(response => response.text())
                             .then(responseText => {
@@ -167,7 +175,7 @@ async function loadDataFromServerAndCreateList(root) {
                             })
                     } else if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseJsonPromise") {
 
-                        // variant 2.2.2: use response.json() to get the response json
+                        // Variant 2.1.2.2: use response.json() to get the response json
                         fetch(dataUrl)
                             .then(res => res.json())
                             .then(jsonObjs => jsonObjs.forEach(obj => addNewListElement(root, obj)));
@@ -176,11 +184,13 @@ async function loadDataFromServerAndCreateList(root) {
 
             } else {
 
-                // variant 2.3: use async/await to load the data from the server
+                // Variant 2.2: use async/await to load the data from the server
                 // async/await is a syntactic sugar over promises, making asynchronous code look synchronous
+                // async function is a function that returns a promise, and await is used to wait for the promise to resolve, until all data is loaded from the server, and then the code continues to execute
                 const res = await fetch(dataUrl);
                 console.log("res: ", res);
 
+                // Variant 2.2.1: use response.text() or response.json() to get the response data
                 if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseTextPromise") {
 
                     // variant 2.3.1: use response.text() to get the response text
@@ -194,6 +204,8 @@ async function loadDataFromServerAndCreateList(root) {
                     });
 
                 } else if (fetch_use_responseTextPromise_or_responseJsonPromise === "responseJsonPromise") {
+
+                    // Variant 2.3.2: use response.json() to get the response json
                     const jsonObjs = await res.json();
                     console.log("jsonObjs: ", jsonObjs);
                     jsonObjs.forEach(obj => {
@@ -241,9 +253,11 @@ function prepareAddingNewLiElements(root) {
 
         // evt.stopPropagation() — What does it do?
         // When an event happens (like a click), it "bubbles" up through the DOM tree — from the innermost element where it happened up through its ancestors, triggering any event listeners on those ancestors for the same event type.
-        // Wenn ein Ereignis (z.B. ein Klick) auf einem Element ausgelöst wird, blubbert es normalerweise nach oben durch die DOM-Hierarchie — also vom innersten Element über die Eltern bis ganz nach oben, und dabei werden alle passenden Event-Handler auf den übergeordneten Elementen ebenfalls ausgeführt.
         // evt.stopPropagation() prevents this bubbling, meaning the event will stop at the current element and won't be triggered on parent elements.
+        // Disadvantage: 1 Prevent parent event handlers from running:, 2 Isolate component behavior:  3 Improve user experience:
+        // Wenn ein Ereignis (z.B. ein Klick) auf einem Element ausgelöst wird, blubbert es normalerweise nach oben durch die DOM-Hierarchie — also vom innersten Element über die Eltern bis ganz nach oben, und dabei werden alle passenden Event-Handler auf den übergeordneten Elementen ebenfalls ausgeführt.
         // Das bedeutet: Das Ereignis wird nur auf dem aktuellen Element behandelt und nicht weiter an die Eltern weitergegeben.
+        // Vorteil: 1 Verhindert das Auslösen von Event-Handlern der Eltern:, 2 Isolation von Komponenten-Verhalten.  3 Verbessert die Nutzererfahrung:
         evt.stopPropagation();
         const newObj = {
             title: "New Object ",
